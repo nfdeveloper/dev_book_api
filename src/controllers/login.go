@@ -2,9 +2,11 @@ package controllers
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 
+	"github.com/nfdeveloper/dev_book_api/src/autenticacao"
 	"github.com/nfdeveloper/dev_book_api/src/banco"
 	"github.com/nfdeveloper/dev_book_api/src/modelos"
 	"github.com/nfdeveloper/dev_book_api/src/repositorios"
@@ -45,5 +47,6 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Write([]byte("Você está logado, ParabÉns"))
+	token, _ := autenticacao.CriarToken(usuarioSalvoNoBanco.ID)
+	fmt.Println(token)
 }
