@@ -17,6 +17,8 @@ type Rota struct {
 func Configurar(r *mux.Router) *mux.Router {
 	rotas := rotaUsuarios
 	rotas = append(rotas, rotaLogin)
+	// Os 3 pontos indicam que sera dado o append para cada rota dento do slice de rotas de publicacoes
+	rotas = append(rotas, rotasPublicacoes...)
 
 	for _, rota := range rotas {
 		if rota.RequerAutenticacao {
