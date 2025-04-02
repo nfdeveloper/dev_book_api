@@ -29,7 +29,7 @@ var rotaUsuarios = []Rota{
 		Uri:                "/usuarios/{usuarioId}",
 		Metodo:             http.MethodPut,
 		Funcao:             controllers.AtualizarUsuario,
-		RequerAutenticacao: false,
+		RequerAutenticacao: true,
 	},
 	{
 		Uri:                "/usuarios/{usuarioId}",

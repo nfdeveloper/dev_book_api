@@ -2,12 +2,14 @@ package controllers
 
 import (
 	"encoding/json"
+	"errors"
 	"io/ioutil"
 	"net/http"
 	"strconv"
 	"strings"
 
 	"github.com/gorilla/mux"
+	"github.com/nfdeveloper/dev_book_api/src/autenticacao"
 	"github.com/nfdeveloper/dev_book_api/src/banco"
 	"github.com/nfdeveloper/dev_book_api/src/modelos"
 	"github.com/nfdeveloper/dev_book_api/src/repositorios"
@@ -104,6 +106,17 @@ func AtualizarUsuario(w http.ResponseWriter, r *http.Request) {
 	usuarioId, erro := strconv.ParseUint(parametros["usuarioId"], 10, 64)
 	if erro != nil {
 		respostas.Erro(w, http.StatusBadRequest, erro)
+		return
+	}
+
+	usuarioIdNoToken, erro := autenticacao.ExtrairUsuarioId(r)
+	if erro != nil {
+		respostas.Erro(w, http.StatusUnauthorized, erro)
+		return
+	}
+
+	if usuarioId != usuarioIdNoToken {
+		respostas.Erro(w, http.StatusForbidden, errors.New("Não é possível atualizar um usuário que não seja o seu."))
 		return
 	}
 
